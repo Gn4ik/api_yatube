@@ -13,7 +13,7 @@ class PostsViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-    
+
     def update(self, request, *args, **kwargs):
         post = self.get_object()
         if post.author != request.user:
@@ -22,7 +22,7 @@ class PostsViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN
             )
         return super().update(request, *args, **kwargs)
-    
+
     def destroy(self, request, *args, **kwargs):
         post = self.get_object()
         if post.author != request.user:
@@ -36,12 +36,12 @@ class PostsViewSet(viewsets.ModelViewSet):
     def get_comments(self, request, pk=None):
         """Получить или создать комментарии для поста"""
         post = self.get_object()
-      
+
         if request.method == 'GET':
             comments = post.comments.all()
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
-        
+
         elif request.method == 'POST':
             serializer = CommentSerializer(data=request.data)
             if serializer.is_valid():
@@ -69,7 +69,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN
             )
         return super().update(request, *args, **kwargs)
-    
+
     def partial_update(self, request, *args, **kwargs):
         comment = self.get_object()
         if comment.author != request.user:
@@ -79,7 +79,7 @@ class CommentViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN
             )
         return super().partial_update(request, *args, **kwargs)
-    
+
     def destroy(self, request, *args, **kwargs):
         comment = self.get_object()
         if comment.author != request.user:

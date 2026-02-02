@@ -13,12 +13,12 @@ urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
     path('', include(router_posts.urls)),
     path('', include(router_groups.urls)),
-    path('posts/<int:post_id>/comments/', 
+    path('posts/<int:post_id>/comments/',
          CommentViewSet.as_view({
              'get': 'list',
              'post': 'create'
          })),
-    path('posts/<int:post_id>/comments/<int:pk>/', 
+    path('posts/<int:post_id>/comments/<int:pk>/',
          CommentViewSet.as_view({
              'get': 'retrieve',
              'put': 'update',
